@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
- android:layout_margin="17dp"
+    android:layout_margin="20dp"
     android:orientation="vertical"
     tools:context=".LogIn">
 
@@ -16,7 +17,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="23dp"
         android:src="@drawable/mmtlogo" />
-   <!-- <TextView
+
+    <!-- <TextView
         android:id="@+id/logNow"
         android:layout_below="@+id/mmt_img"
         android:layout_width="match_parent"
@@ -31,13 +33,13 @@
         android:id="@+id/per"
         android:layout_width="match_parent"
         android:layout_height="55dp"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="134dp"
         android:text="Get Personalized Experience And Travel Offers"
         android:textAlignment="center"
-        android:textSize="17sp"
-        android:layout_alignParentLeft="true" />
+        android:textSize="15sp" />
 
 
     <!-- Login progress -->
@@ -56,7 +58,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="217dp"
+        android:layout_marginTop="212dp"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="156dp">
@@ -101,18 +103,18 @@
     <Button
         android:id="@+id/email_sign_in_button"
         style="?android:textAppearanceSmall"
-        android:layout_width="209dp"
-        android:layout_height="60dp"
+        android:layout_width="178dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/pasword_text"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:background="@drawable/rounded"
+        android:background="#e01f1f"
         android:shadowColor="@android:color/darker_gray"
         android:shadowDx="50"
         android:shadowDy="30"
         android:text="sign in"
         android:textColor="@android:color/white"
-        android:textSize="20sp"
+        android:textSize="15sp"
         android:textStyle="bold"
         tools:ignore="MissingConstraints,NotSibling,UnknownId"
         tools:layout_editor_absoluteX="0dp"
@@ -123,35 +125,34 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/button_signup"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="48dp"
-        android:layout_marginStart="48dp"
-        android:text="Don't have an account"
+        android:layout_toStartOf="@+id/button_signup"
+        android:text="Don't have an account  "
         android:textColor="@android:color/darker_gray"
-        android:textSize="17sp" />
+        android:textSize="13sp"
+        tools:ignore="RtlCompat" />
 
     <Button
         android:id="@+id/button_signup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_below="@+id/email_sign_in_button"
-        android:layout_marginEnd="38dp"
-        android:layout_marginRight="38dp"
+        android:layout_marginEnd="44dp"
 
         android:background="@android:color/transparent"
         android:text="Register here"
         android:textColor="@android:color/black"
-        android:textSize="17sp" />
+        android:textSize="13sp" />
 
-    <ImageButton
-        android:layout_width="174dp"
-        android:layout_height="104dp"
-        android:layout_below="@+id/button_signup"/>
-        <!--android:src="@drawable/goog"
-        -->
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/button_google_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="12dp">
+
+    </com.google.android.gms.common.SignInButton>
 
 
 </RelativeLayout>
