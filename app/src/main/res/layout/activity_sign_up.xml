@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_margin="17dp"
+    android:layout_margin="20dp"
     tools:context=".SignUp">
 
 
@@ -118,21 +118,22 @@
 
 
     <Button
-        android:id="@+id/email_sign_in_button"
+        android:id="@+id/button_SignUp"
         style="?android:textAppearanceSmall"
-        android:layout_width="209dp"
-        android:layout_height="60dp"
+        android:layout_width="178dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/pasword_text"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="60dp"
         android:layout_marginTop="30dp"
-        android:background="@drawable/rounded"
+        android:background="#e01f1f"
         android:shadowColor="@android:color/darker_gray"
         android:shadowDx="50"
         android:shadowDy="30"
         android:text="sign Up"
+        android:textAlignment="center"
         android:textColor="@android:color/white"
-        android:textSize="20sp"
+        android:textSize="15sp"
         android:textStyle="bold"
         tools:ignore="MissingConstraints,NotSibling,UnknownId"
         tools:layout_editor_absoluteX="0dp"
