@@ -14,10 +14,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -30,7 +28,7 @@ public class SignUp extends AppCompatActivity {
     Intent intent;
     Button button_SignUp;
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-    String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{4,}$";
+    String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$";
     String passwordvalidate;
     private TextView fn, ln, Email, password;
 
@@ -49,7 +47,6 @@ public class SignUp extends AppCompatActivity {
         // fn= (TextView) fn.getText();
         //ln= (TextView) ln.getText();
 
-
         emailvalidate = Email.getText().toString();
         passwordvalidate = password.getText().toString();
 
@@ -66,13 +63,6 @@ public class SignUp extends AppCompatActivity {
             }
         });
 */
-
-
-
-
-
-
-
 
        /* if (fn.getText().toString().length() == 0)//First Name not empty
             fn.setError("First Name required");
@@ -92,6 +82,19 @@ public class SignUp extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //post request
+
+                if (fn.getText().toString().length() == 0)//fn not empty
+                    fn.setError("First Name required");
+                if (ln.getText().toString().length() == 0)//ln not empty
+                    ln.setError("Last Name required");
+                if (Email.getText().toString().length() == 0)//e-mail not empty
+                    Email.setError("Email Id required");
+                /*else if (!emailvalidate.matches(emailPattern))//invalid email
+                    Email.setError("Invalid email");*/
+                else if (password.getText().toString().length() == 0)//password not empty
+                    password.setError("Password required");
+                else if (!passwordvalidate.matches(PASSWORD_PATTERN))
+                    password.setError("Password must require 1 special character,1 number,1 capital letter,and must contain letter more than or equal to 8");
 
 
                 Map<String, String> params = new HashMap();
@@ -123,15 +126,17 @@ public class SignUp extends AppCompatActivity {
                     @Override
                             public void onResponse(JSONObject response) {
                                 Toast.makeText(SignUp.this, "Success", Toast.LENGTH_LONG).show();
-                            }
+                        intent = new Intent(SignUp.this, LogIn.class);
+                        startActivity(intent);
+                        finish();
+
+                    }
 
                         }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(SignUp.this, "shweta error", Toast.LENGTH_LONG).show();
-                        intent = new Intent(SignUp.this, SignUp.class);
-                        startActivity(intent);
-                        finish();
+                        Toast.makeText(SignUp.this, "ERROR", Toast.LENGTH_LONG).show();
+
                     }
                 }) {
 
@@ -161,9 +166,7 @@ public class SignUp extends AppCompatActivity {
                 Log.d("Json result","value--"+parameters.toString());
               //  Log.d("Json result","Request---"+jsonObjReq.toString());
 
-                intent = new Intent(SignUp.this, LogIn.class);
-                startActivity(intent);
-                finish();
+
             }
 
 
