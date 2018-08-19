@@ -84,9 +84,9 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener,Goo
         emailvalidate = Email.getText().toString();
         passwordvalidate = password.getText().toString();
 
-        if (Email.getText().toString().length() == 0)//e-mail not empty
+    /*    if (Email.getText().toString().length() == 0)//e-mail not empty
             Email.setError("Email Id required");
-       /* if (Email.getText().toString().length() == 0)//e-mail not empty
+    */   /* if (Email.getText().toString().length() == 0)//e-mail not empty
             Email.setError("email id required");
         else if (!emailvalidate.matches(emailPattern))//invalid email
             Email.setError("invalid email");

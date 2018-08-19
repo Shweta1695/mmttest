@@ -93,9 +93,9 @@ public class SignUp extends AppCompatActivity {
                     Email.setError("Invalid email");*/
                 else if (password.getText().toString().length() == 0)//password not empty
                     password.setError("Password required");
-                else if (!passwordvalidate.matches(PASSWORD_PATTERN))
+           /*     else if (!passwordvalidate.matches(PASSWORD_PATTERN))
                     password.setError("Password must require 1 special character,1 number,1 capital letter,and must contain letter more than or equal to 8");
-
+*/
 
                 Map<String, String> params = new HashMap();
                 params.put("fName", fn.getText().toString());
