@@ -1,273 +1,109 @@
 package com.example.shwetatripathi.mmt;
 
-import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.android.volley.Request;
-import com.android.volley.Request.Method;
-import com.android.volley.RequestQueue;
+import android.view.Menu;
+import android.widget.ListView;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.bumptech.glide.Glide;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 public class Offers extends AppCompatActivity {
 
-   private static final String mURL="http://54.242.83.222:8080/MakeMyTrip/mmt/blog/seeAllBlogs";
-    private RecyclerView recyclerView;
-    private RecyclerView.Adapter adapter;
-    TextView nameText;
-    ImageView imageText;
-    String name,image;
-    BlogOne blogone;
-    private List<BlogOne> blog_list;
+    // Log tag
+    private static final String TAG = OffersOne.class.getSimpleName();
 
-
-
+    // Movies json url
+    private static final String url = "http://54.242.83.222:8080/MakeMyTrip/mmt/blog/seeAllBlogs";
+    private ProgressDialog pDialog;
+   // private List<Movie> movieList = new ArrayList<Movie>();
+    private ListView listView;
+  //  private CustomListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_offers);
 
-        init();
-        new fetchData().execute();
-        //nameText=(TextView) findViewById(R.id.blog_title);
+        listView = (ListView) findViewById(R.id.list);
+       // adapter = new CustomListAdapter(this,movieList);
+      //  listView.setAdapter(adapter);
 
+        pDialog = new ProgressDialog(this);
+        // Showing progress dialog before making http request
+        pDialog.setMessage("Loading...");
+        pDialog.show();
 
+        // changing action bar color
+        getActionBar().setBackgroundDrawable(
+                new ColorDrawable(Color.parseColor("#1b1b1b")));
 
+        // Creating volley request obj
+        JsonArrayRequest movieReq = new JsonArrayRequest(url,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.d(TAG, response.toString());
+                        hidePDialog();
 
-//        loadRecyclerViewData();
-    }
+                        // Parsing json
+                        for (int i = 0; i < response.length(); i++) {
+                            try {
+                                JSONObject obj = response.getJSONObject(i);
+                             //   Movie movie = new Movie();
+                           //     movie.setTitle(obj.getString("blogName"));
+                           //     movie.setThumbnailUrl(obj.getString("imgURL"));
 
-    private void init() {
-        imageText=(ImageView) findViewById(R.id.blog_img);
+                                // adding movie to movies array
 
-        recyclerView = findViewById(R.id.blog_recyclerview);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        blog_list = new ArrayList<>();
-        adapter = new Blog_Recycler_Adapter(blog_list,this);
-        recyclerView.setAdapter(adapter);
+                          //      movieList.add(movie);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
 
-        blog_list = new ArrayList<>();
-
-    }
-
-
-
-    public class fetchData extends AsyncTask<Void, Void, Void>{
-        private String mBlog;
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            HttpURLConnection urlConnection = null;
-            BufferedReader reader = null;
-            Uri uri = Uri.parse(mURL);
-            URL url;
-            try{
-                url = new URL(uri.toString());
-                urlConnection = (HttpURLConnection)url.openConnection();
-                urlConnection.setRequestMethod("GET");
-                urlConnection.connect();
-
-                InputStream inputStream = urlConnection.getInputStream();
-                StringBuffer buffer = new StringBuffer();
-
-                if(inputStream == null){
-                    return  null;
-                }
-
-                reader = new BufferedReader(new InputStreamReader(inputStream));
-
-                String line;
-                while(( line = reader.readLine()) != null){
-                    buffer.append(line + "\n");
-                }
-
-                if (buffer.length() == 0){
-                    return  null;
-                }
-
-                mBlog = buffer.toString();
-                JSONObject jsonObject = new JSONObject(mBlog);
-
-                JSONArray blogarray = jsonObject.getJSONArray("blogone");
-
-                for (int i = 0; i < blogarray.length(); i++){
-                    String blog;
-                    String imageURL;
-
-
-                    JSONObject jBlog = (JSONObject) blogarray.get(i);
-                    jBlog = jBlog.getJSONObject("blog");
-                    JSONObject jimageURL = jBlog.getJSONObject("imageURL");
-
-                    blog = jBlog.getString("blogName");
-                    imageURL = jimageURL.getString("imageURL");
-
-                    BlogOne blogOne = new BlogOne();
-                    blogOne.setBlogName(blog);
-                    blogOne.setImgURL(imageURL);
-
-
-                    blog_list.add(blogOne);
-
-
-                }
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }finally {
-                if (urlConnection != null) {
-                    urlConnection.disconnect();
-                }
-                if (reader != null) {
-                    try {
-                        reader.close();
-                    } catch (final IOException e) {
-                        Log.e("MainActivity", "Error closing stream", e);
+                        // notifying list adapter about data changes
+                        // so that it renders the list view with updated data
+                      //  adapter.notifyDataSetChanged();
                     }
-                }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                hidePDialog();
             }
-            return null;
-        }
+        });
 
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            adapter.notifyDataSetChanged();
-
-        }
-
+        // Adding request to request queue
+      //  AppController.getInstance().addToRequestQueue(movieReq);
     }
 
-//    private void loadRecyclerViewData() {
-//        ProgressDialog progressDialog=new ProgressDialog(this);
-//        progressDialog.setMessage("Loading Data...");
-//        progressDialog.show();
-//
-//        jsonParse();
-//
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        hidePDialog();
+    }
 
+    private void hidePDialog() {
+        if (pDialog != null) {
+            pDialog.dismiss();
+            pDialog = null;
+        }
+    }
 
-//
-//JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, URL, null,
-//        new Response.Listener<JSONObject>() {
-//    @Override
-//    public void onResponse(JSONObject response) {
-//        try {
-//
-//            name=response.getString("blog_name");
-//            image=response.getString("img_url");
-//            nameText.setText(name);
-////            imageText.setImage(image);
-//
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//
-//
-//    }
-//}, new Response.ErrorListener() {
-//    @Override
-//    public void onErrorResponse(VolleyError error) {
-//        Toast.makeText(Offers.this, "Something went wrong "+error.toString(), Toast.LENGTH_LONG).show();
-//
-//    }
-//});
-//
-//
-//        RequestQueue requestQueue= Volley.newRequestQueue(this);
-//        requestQueue.add(jsonObjectRequest);
-  //  }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
 
-//    private void jsonParse() {
-//        StringRequest request = new StringRequest(URL, response -> {
-//            Log.e("Code", response);
-//
-//            ObjectMapper mapper = new ObjectMapper();
-//
-//            try{
-//
-//                List<BlogOne> blogone = Arrays.asList(mapper.readValue(response, BlogOne[].class)) ;
-//
-//                    for(int i=0;i<response.length();i++)
-//                    {
-//
-//
-//                        BlogOne b = new BlogOne(
-//                                blogone.get(i).getBlogName(),
-//                                Glide.with(this).load(blogone.get(i).getImgURL()).into(imageText)
-//                        );
-//                        blog_list.add(b);
-//
-//                    }
-//
-///*
-//                nameText.setText(blogone.get(0).getId() + ","+ blogone.get(0).getBlogName() + ","+ blogone.get(0).getBlogURL() + ","+ blogone.get(0).getImgURL());
-//
-//                nameText.append(blogone.get(1).getId() + ","+ blogone.get(1).getBlogName() + ","+ blogone.get(1).getBlogURL() + ","+ blogone.get(1).getImgURL());
-//*/
-//
-//            }
-//            catch (JsonParseException e){
-//                e.printStackTrace();
-//            }
-//            catch (com.fasterxml.jackson.core.JsonParseException e) {
-//                e.printStackTrace();
-//            }
-//            catch (JsonMappingException e) {
-//                e.printStackTrace();
-//            }
-//            catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//
-//
-//        }, error -> {
-//            Toast.makeText(this, "Something went wrong " + error.getMessage(), Toast.LENGTH_LONG).show();
-//        });
-//            RequestQueue queue = Volley.newRequestQueue(this);
-//            queue.add(request);
-//
-//
-//    }
 }

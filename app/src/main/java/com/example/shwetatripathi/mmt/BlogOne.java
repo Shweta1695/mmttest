@@ -5,7 +5,7 @@ import com.bumptech.glide.request.target.Target;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
-
+@Deprecated
 public class BlogOne{
 
 	@JsonProperty("imgURL")

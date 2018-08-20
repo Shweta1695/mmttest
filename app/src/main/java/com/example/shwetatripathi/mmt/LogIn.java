@@ -1,5 +1,6 @@
 package com.example.shwetatripathi.mmt;
 
+import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -114,8 +115,12 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener,Goo
                     @Override
                     public void onResponse(JSONObject response) {
                         Toast.makeText(LogIn.this, "Success", Toast.LENGTH_LONG).show();
-                        intent = new Intent(LogIn.this, Offers.class);
+                        //intent = new Intent(LogIn.this, Offers.class);
+                        Intent intent = new Intent(Intent.ACTION_MAIN);
+                        intent.setComponent(new ComponentName("info.androidhive.customlistviewvolley","info.androidhive.customlistviewvolley.Offers"));
                         startActivity(intent);
+
+                       // startActivity(intent);
                         finish();
                     }
 

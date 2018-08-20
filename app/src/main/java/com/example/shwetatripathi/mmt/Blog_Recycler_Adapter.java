@@ -1,7 +1,6 @@
 package com.example.shwetatripathi.mmt;
 
 import android.content.Context;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,8 +13,10 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
-public class Blog_Recycler_Adapter extends RecyclerView.Adapter<Blog_Recycler_Adapter.ViewHolder> {
-
+public class Blog_Recycler_Adapter
+{
+        //extends RecyclerView.Adapter<Blog_Recycler_Adapter.ViewHolder> {
+/*
     List<BlogOne> blog_list;
     private Context context;
 
@@ -30,7 +31,7 @@ public class Blog_Recycler_Adapter extends RecyclerView.Adapter<Blog_Recycler_Ad
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
        View v= LayoutInflater.from(parent.getContext())
-               .inflate(R.layout.list_items,parent,false);
+               .inflate(R.layout.list_row,parent,false);
             return new ViewHolder(v);
 
           }
@@ -65,5 +66,5 @@ public class Blog_Recycler_Adapter extends RecyclerView.Adapter<Blog_Recycler_Ad
 
 
     }
-}
+}*/
 }
